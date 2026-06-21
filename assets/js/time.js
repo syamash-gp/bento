@@ -2,30 +2,39 @@
 //  │ ││││├┤
 //  ┴ ┴┴ ┴└─┘
 // Set time and Date
+//
+// Note: this profile has privacy.resistFingerprinting enabled, which forces
+// `new Date()` to report UTC to web pages. We pin an explicit timezone via
+// Intl so the clock shows local (Malaysia) time without weakening RFP.
+
+const CLOCK_TIMEZONE = 'Asia/Kuala_Lumpur'; // UTC+8, no DST
 
 window.onload = displayClock();
 function displayClock() {
-	const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+	const now = new Date();
 
-	var d = new Date();
-	var mm = monthNames[d.getMonth()];
-	var dd = d.getDate();
-	var min = (mins = ('0' + d.getMinutes()).slice(-2));
-	var hh = d.getHours();
-	var ampm = '';
-
-	if (CONFIG.twelveHourFormat) {
-		ampm = hh >= 12 ? ' pm' : ' am';
-		hh = hh % 12;
-		hh = hh ? hh : 12;
+	const parts = {};
+	for (const p of new Intl.DateTimeFormat('en-US', {
+		timeZone: CLOCK_TIMEZONE,
+		hourCycle: CONFIG.twelveHourFormat ? 'h12' : 'h23',
+		hour: 'numeric',
+		minute: '2-digit',
+		month: 'short',
+		day: 'numeric',
+	}).formatToParts(now)) {
+		parts[p.type] = p.value;
 	}
+
+	const hh = parts.hour;
+	const min = parts.minute;
+	const ampm = CONFIG.twelveHourFormat && parts.dayPeriod ? ' ' + parts.dayPeriod.toLowerCase() : '';
 
 	document.getElementById('hour').innerText = hh;
 	document.getElementById('separator').innerHTML = ' : ';
 	document.getElementById('minutes').innerText = min + ampm;
 
-	document.getElementById('month').innerText = mm;
-	document.getElementById('day').innerText = dd;
+	document.getElementById('month').innerText = parts.month;
+	document.getElementById('day').innerText = parts.day;
 
 	setTimeout(displayClock, 1000);
 }
