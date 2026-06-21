@@ -6,7 +6,10 @@
 
 /* V A R I A B L E S */
 
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap'); /* Font Import */
+/* Font Import */
+@import url('https://fonts.googleapis.com/css2?family=Vend+Sans:ital,wght@0,300..700;1,300..700&display=swap');
+
+/*'https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap'); */
 
 :root {
   /* Font Size */
@@ -26,7 +29,7 @@
   --cards: #e4e6e6; /* Cards color */
 
   /* Image background  */
-  --imgbg: url(assets/background.jpg); /* Image URL */
+  --imgbg: url(assets/leaves-dark-green.jpg); /* Image URL */
   --imgcol: linear-gradient(
     rgba(255, 255, 255, 0.7),
     rgba(255, 255, 255, 0.7)
@@ -56,7 +59,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Vend Sans', 'Inter', sans-serif;
   transition: 0.2s ease-in-out;
 }
 
@@ -102,7 +105,7 @@ body {
   height: 85vh;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr) auto repeat(2, 1fr);
   grid-gap: 30px;
   padding: 20px;
 }
@@ -205,8 +208,39 @@ body {
   grid-gap: 0 !important;
 }
 
+.searchBlock {
+  grid-row: 3;
+  grid-column: 1 / span 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#searchInput {
+  width: 100%;
+  max-width: 55vh;
+  padding: 0.55rem 1.2rem;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background-color: var(--cards);
+  color: var(--fg);
+  font-size: var(--fg-list);
+  outline: none;
+  transition: 0.2s ease-in-out;
+}
+
+#searchInput:focus {
+  border-color: var(--accent);
+  box-shadow: 0 5px 7px rgba(0, 0, 0, 0.35);
+}
+
+#searchInput::placeholder {
+  color: var(--fg);
+  opacity: 0.4;
+}
+
 .linksBlock {
-  grid-row: 3 / span 2;
+  grid-row: 4 / span 2;
   grid-column: 1 / span 4;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
